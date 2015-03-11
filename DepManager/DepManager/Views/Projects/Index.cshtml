@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DepManager.Models.Project>
+﻿@model DepManager.Models.ProjectIndexData
 
 @{
     ViewBag.Title = "Index";
@@ -12,16 +12,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProjectManager.FullName)
+            项目经理
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProjectName)
+            项目名称
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model.Projects) {
+        string selectedRow = "";
+        if (item.ProjectID == ViewBag.ProjectID)
+        {
+            selectedRow = "success";
+        }
+    <tr class="@selectedRow">
         <td>
             @Html.DisplayFor(modelItem => item.ProjectManager.FullName)
         </td>
@@ -29,6 +34,7 @@
             @Html.DisplayFor(modelItem => item.ProjectName)
         </td>
         <td>
+            @Html.ActionLink("简报", "Index", new { id = item.ProjectID }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.ProjectID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ProjectID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ProjectID })
@@ -37,3 +43,37 @@
 }
 
 </table>
+
+@if (Model.PBriefs != null)
+{
+    <h3>项目简报</h3>
+    <table class="table">
+        <tr>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>计划</th>
+            <th>实际执行</th>
+        </tr>
+
+        @foreach (var item in Model.PBriefs)
+        {
+
+            <tr>
+                <td>
+                    @item.StartTime.ToShortDateString()
+                </td>
+                <td>
+                    @item.EndTime.ToShortDateString()
+                </td>
+                <td>
+                    @item.Plan
+                </td>
+                <td>
+                    @item.Action
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}

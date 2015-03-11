@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DepManager.Models.TaskJob>
+﻿@model DepManager.Models.TaskJobIndexData
 
 @{
     ViewBag.Title = "Index";
@@ -12,16 +12,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProjectManager.FullName)
+            项目经理
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskName)
+            工作任务
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model.TaskJobs)
+{
+    string selectedRow = "";
+    if (item.TaskID == ViewBag.TaskID)
+    {
+        selectedRow = "success";
+    }
+    <tr class="@selectedRow">
         <td>
             @Html.DisplayFor(modelItem => item.ProjectManager.FullName)
         </td>
@@ -29,11 +35,47 @@
             @Html.DisplayFor(modelItem => item.TaskName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
+            @Html.ActionLink("简报", "Index", new { id = item.TaskID }) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.TaskID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.TaskID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.TaskID })
         </td>
     </tr>
 }
 
 </table>
+
+@if (Model.TBriefs != null)
+{
+    <h3>项目简报</h3>
+    <table class="table">
+        <tr>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>计划</th>
+            <th>实际执行</th>
+        </tr>
+
+        @foreach (var item in Model.TBriefs)
+        {
+
+            <tr>
+                <td>
+                    @item.StartTime.ToShortDateString()
+                </td>
+                <td>
+                    @item.EndTime.ToShortDateString()
+                </td>
+                <td>
+                    @item.Plan
+                </td>
+                <td>
+                    @item.Action
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}
+

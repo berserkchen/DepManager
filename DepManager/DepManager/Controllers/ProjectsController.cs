@@ -15,10 +15,20 @@ namespace DepManager.Controllers
         private DepManagerContext db = new DepManagerContext();
 
         // GET: Projects
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var projects = db.Projects.Include(p => p.ProjectManager);
-            return View(projects.ToList());
+            var viewModel = new ProjectIndexData();
+            viewModel.Projects = db.Projects;
+
+            if (id != null)
+            {
+                ViewBag.ProjectID = id.Value;
+                viewModel.PBriefs = viewModel.Projects.Where(
+                    i => i.ProjectID == id.Value).Single().PBriefs;
+            }
+
+
+            return View(viewModel);
         }
 
         // GET: Projects/Details/5

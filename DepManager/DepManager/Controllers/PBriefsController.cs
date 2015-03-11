@@ -15,10 +15,19 @@ namespace DepManager.Controllers
         private DepManagerContext db = new DepManagerContext();
 
         // GET: PBriefs
-        public ActionResult Index()
+        public ActionResult Index(int? SelectedProject)
         {
-            var pBriefs = db.PBriefs.Include(p => p.Project);
-            return View(pBriefs.ToList());
+
+            var projects = db.Projects.OrderBy(q => q.ProjectID).ToList();
+            ViewBag.SelectedProject = new SelectList(projects, "ProjectID", "ProjectName", SelectedProject);
+            int ProjectID = SelectedProject.GetValueOrDefault();
+
+            IQueryable<PBrief> PBriefs = db.PBriefs
+                .Where(c => !SelectedProject.HasValue || c.ProjectID == ProjectID)
+                .OrderBy(d => d.BriefID)
+                .Include(d => d.Project);
+            var sql = projects.ToString();
+            return View(PBriefs.ToList());
         }
 
         // GET: PBriefs/Details/5

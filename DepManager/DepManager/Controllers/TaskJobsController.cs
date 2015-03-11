@@ -15,10 +15,20 @@ namespace DepManager.Controllers
         private DepManagerContext db = new DepManagerContext();
 
         // GET: TaskJobs
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var taskJobs = db.TaskJobs.Include(t => t.ProjectManager);
-            return View(taskJobs.ToList());
+            var viewModel = new TaskJobIndexData();
+            viewModel.TaskJobs = db.TaskJobs;
+
+            if (id != null)
+            {
+                ViewBag.TaskJobID = id.Value;
+                viewModel.TBriefs = viewModel.TaskJobs.Where(
+                    i => i.TaskID == id.Value).Single().TBriefs;
+            }
+
+
+            return View(viewModel);
         }
 
         // GET: TaskJobs/Details/5

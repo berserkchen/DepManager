@@ -15,10 +15,19 @@ namespace DepManager.Controllers
         private DepManagerContext db = new DepManagerContext();
 
         // GET: TBriefs
-        public ActionResult Index()
+        public ActionResult Index(int? SelectedTaskJob)
         {
-            var tBriefs = db.TBriefs.Include(t => t.TaskJob);
-            return View(tBriefs.ToList());
+
+            var taskjobs = db.TaskJobs.OrderBy(q => q.TaskID).ToList();
+            ViewBag.SelectedTaskJob = new SelectList(taskjobs, "TaskID", "TaskName", SelectedTaskJob);
+            int TaskID = SelectedTaskJob.GetValueOrDefault();
+
+            IQueryable<TBrief> TBriefs = db.TBriefs
+                .Where(c => !SelectedTaskJob.HasValue || c.TaskID == TaskID)
+                .OrderBy(d => d.BriefID)
+                .Include(d => d.TaskJob);
+            var sql = taskjobs.ToString();
+            return View(TBriefs.ToList());
         }
 
         // GET: TBriefs/Details/5
