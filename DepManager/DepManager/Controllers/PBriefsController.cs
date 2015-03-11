@@ -29,7 +29,6 @@ namespace DepManager.Controllers
             var sql = projects.ToString();
             return View(PBriefs.ToList());
         }
-
         // GET: PBriefs/Details/5
         public ActionResult Details(int? id)
         {
@@ -57,7 +56,7 @@ namespace DepManager.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BriefID,StartTime,EndTime,Plan,Action,ProjectID")] PBrief pBrief)
+        public ActionResult Create([Bind(Include = "BriefID,StartTime,EndTime,Plan,Action,Finished,ProjectID")] PBrief pBrief)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +90,7 @@ namespace DepManager.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BriefID,StartTime,EndTime,Plan,Action,ProjectID")] PBrief pBrief)
+        public ActionResult Edit([Bind(Include = "BriefID,StartTime,EndTime,Plan,Action,Finished,ProjectID")] PBrief pBrief)
         {
             if (ModelState.IsValid)
             {
