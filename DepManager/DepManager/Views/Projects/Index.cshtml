@@ -20,7 +20,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model.Projects) {
+@foreach (var item in Model.Projects.ToList()) {
         string selectedRow = "";
         if (item.ProjectID == ViewBag.ProjectID)
         {
@@ -28,10 +28,10 @@
         }
     <tr class="@selectedRow">
         <td>
-            @Html.DisplayFor(modelItem => item.ProjectManager.FullName)
+            @Html.DisplayFor(m => item.ProjectManager.FullName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProjectName)
+            @Html.DisplayFor(m => item.ProjectName)
         </td>
         <td>
             @Html.ActionLink("简报", "Index", new { id = item.ProjectID }) |
