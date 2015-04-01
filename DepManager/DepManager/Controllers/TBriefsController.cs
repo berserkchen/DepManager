@@ -104,6 +104,7 @@ namespace DepManager.Controllers
         }
 
         // GET: TBriefs/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)

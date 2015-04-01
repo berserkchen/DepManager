@@ -10,6 +10,7 @@ using DepManager.Models;
 
 namespace DepManager.Controllers
 {
+    [Authorize]
     public class ManagersController : Controller
     {
         private DepManagerContext db = new DepManagerContext();

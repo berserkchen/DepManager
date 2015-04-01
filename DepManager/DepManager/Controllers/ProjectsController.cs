@@ -105,6 +105,7 @@ namespace DepManager.Controllers
         }
 
         // GET: Projects/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)

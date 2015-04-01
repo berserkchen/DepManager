@@ -103,6 +103,7 @@ namespace DepManager.Controllers
         }
 
         // GET: PBriefs/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)

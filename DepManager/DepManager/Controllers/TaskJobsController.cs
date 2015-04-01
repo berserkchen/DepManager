@@ -22,7 +22,7 @@ namespace DepManager.Controllers
 
             if (id != null)
             {
-                ViewBag.TaskJobID = id.Value;
+                ViewBag.TaskID = id.Value;
                 viewModel.TBriefs = viewModel.TaskJobs.Where(
                     i => i.TaskID == id.Value).Single().TBriefs;
             }
